@@ -1,11 +1,14 @@
-require "fake_spewz/models/person"
+require "fake_spewz/models/address_model"
+require "fake_spewz/models/family_model"
+require "fake_spewz/models/person_model"
 
 module FakeSpewz
-  class Model
+  module Models
+    class Model
 
-    def initialize
+      def initialize
+      end
+
     end
-
-      
   end
 end

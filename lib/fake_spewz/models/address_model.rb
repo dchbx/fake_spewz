@@ -1,6 +1,6 @@
 module FakeSpewz
   module Models
-    class AddressModel < Model
+    class AddressModel #< Model
 
       def initialize
       end
