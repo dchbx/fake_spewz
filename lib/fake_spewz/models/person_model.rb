@@ -1,3 +1,4 @@
+require 'date'
 module FakeSpewz
   module Models
     class PersonModel #< Model
@@ -23,18 +24,18 @@ module FakeSpewz
         @age_epoch  = traits[:age_epoch]  || :adult
 
         # Enable override of any model attribute
-        @id               = traits[:id]               if traits[:id].present?
-        @gender           = traits[:gender]           if traits[:gender].present?
-        @first_name       = traits[:first_name]       if traits[:first_name].present?
-        @middle_name      = traits[:middle_name]      if traits[:middle_name].present?
-        @last_name        = traits[:last_name]        if traits[:last_name].present?
-        @name_prefix      = traits[:name_prefix]      if traits[:name_prefix].present?
-        @name_suffix      = traits[:name_suffix]      if traits[:name_suffix].present?
-        @date_of_birth    = traits[:date_of_birth]    if traits[:date_of_birth].present?
-        @ssn              = traits[:ssn]              if traits[:ssn].present?
-        @is_incarcerated  = traits[:is_incarcerated]  if traits[:is_incarcerated].present?
-        @is_disabled      = traits[:is_disabled]      if traits[:is_disabled].present?
-        @uses_tobacco     = traits[:uses_tobacco]     if traits[:uses_tobacco].present?
+        @id               = traits[:id]               unless traits[:id].nil?
+        @gender           = traits[:gender]           unless traits[:gender].nil?
+        @first_name       = traits[:first_name]       unless traits[:first_name].nil?
+        @middle_name      = traits[:middle_name]      unless traits[:middle_name].nil?
+        @last_name        = traits[:last_name]        unless traits[:last_name].nil?
+        @name_prefix      = traits[:name_prefix]      unless traits[:name_prefix].nil?
+        @name_suffix      = traits[:name_suffix]      unless traits[:name_suffix].nil?
+        @date_of_birth    = traits[:date_of_birth]    unless traits[:date_of_birth].nil?
+        @ssn              = traits[:ssn]              unless traits[:ssn].nil?
+        @is_incarcerated  = traits[:is_incarcerated]  unless traits[:is_incarcerated].nil?
+        @is_disabled      = traits[:is_disabled]      unless traits[:is_disabled].nil?
+        @uses_tobacco     = traits[:uses_tobacco]     unless traits[:uses_tobacco].nil?
 
         build_person
       end
@@ -98,14 +99,14 @@ module FakeSpewz
 
         # Eliminate leap year edge case
         day_of_year = [Date.today.yday, 365].min
-        @date_of_birth = Date.new(Date.today - age_today, day_of_year)
+        @date_of_birth = Date.ordinal(Date.today.year - age_today, day_of_year)
       end
 
       def ssn
         123456789
       end
 
-      def is_incarerated
+      def is_incarcerated
         @is_incarcerated ||= [true, false].sample
       end
 
