@@ -1,7 +1,7 @@
 require 'date'
 module FakeSpewz
   module Models
-    class PersonModel #< Model
+    class PersonModel #< FakeSpewz::Models::Model
       GENDER_KINDS              = [:male, :female]
       NEUTRAL_NAME_PREFIX_KINDS = [:adm, :atty, :capt, :cmdr, :col, :dr, :gov, :hon, :prof]
       MALE_NAME_PREFIX_KINDS    = [:brother, :father, :mr] + NEUTRAL_NAME_PREFIX_KINDS
@@ -19,28 +19,36 @@ module FakeSpewz
 
       USES_TOBACCO_KINDS = [:true, :false, :unknown]
 
-      def call(traits = {})
-        @id_offset  = traits[:id_offset]  || 0
-        @age_epoch  = traits[:age_epoch]  || :adult
+      def initialize(traits = {})
+        # super
+
+        traits.each do |k,v|
+          instance_variable_set("@#{k}", v) unless v.nil?
+        end
+
+        @id_offset = traits[:id_offset] || 0
+        @age_epoch = traits[:age_epoch] || :adult
 
         # Enable override of any model attribute
-        @id               = traits[:id]               unless traits[:id].nil?
-        @gender           = traits[:gender]           unless traits[:gender].nil?
-        @first_name       = traits[:first_name]       unless traits[:first_name].nil?
-        @middle_name      = traits[:middle_name]      unless traits[:middle_name].nil?
-        @last_name        = traits[:last_name]        unless traits[:last_name].nil?
-        @name_prefix      = traits[:name_prefix]      unless traits[:name_prefix].nil?
-        @name_suffix      = traits[:name_suffix]      unless traits[:name_suffix].nil?
-        @date_of_birth    = traits[:date_of_birth]    unless traits[:date_of_birth].nil?
-        @ssn              = traits[:ssn]              unless traits[:ssn].nil?
-        @is_incarcerated  = traits[:is_incarcerated]  unless traits[:is_incarcerated].nil?
-        @is_disabled      = traits[:is_disabled]      unless traits[:is_disabled].nil?
-        @uses_tobacco     = traits[:uses_tobacco]     unless traits[:uses_tobacco].nil?
-
-        build_person
+        # @id               = traits[:id]               unless traits[:id].nil?
+        # @gender           = traits[:gender]           unless traits[:gender].nil?
+        # @first_name       = traits[:first_name]       unless traits[:first_name].nil?
+        # @middle_name      = traits[:middle_name]      unless traits[:middle_name].nil?
+        # @last_name        = traits[:last_name]        unless traits[:last_name].nil?
+        # @name_prefix      = traits[:name_prefix]      unless traits[:name_prefix].nil?
+        # @name_suffix      = traits[:name_suffix]      unless traits[:name_suffix].nil?
+        # @date_of_birth    = traits[:date_of_birth]    unless traits[:date_of_birth].nil?
+        # @ssn              = traits[:ssn]              unless traits[:ssn].nil?
+        # @is_incarcerated  = traits[:is_incarcerated]  unless traits[:is_incarcerated].nil?
+        # @is_disabled      = traits[:is_disabled]      unless traits[:is_disabled].nil?
+        # @uses_tobacco     = traits[:uses_tobacco]     unless traits[:uses_tobacco].nil?
       end
 
-      def build_person
+      def call
+        build_person_model
+      end
+
+      def build_person_model
         {
             id: id,
             gender: gender,
@@ -86,6 +94,9 @@ module FakeSpewz
       end
 
       def date_of_birth
+        # Age epoch is ignored if date of birth value is a specified trait
+        return @date_of_birth if defined?(@date_of_birth)
+
         case @age_epoch
         when :adult
           age_today = rand(ADULT_AGE_RANGE)
@@ -115,7 +126,7 @@ module FakeSpewz
       end
 
       def uses_tobacco
-        USES_TOBACCO_KINDS.sample
+        @uses_tobacco ||= USES_TOBACCO_KINDS.sample
       end
 
     private
