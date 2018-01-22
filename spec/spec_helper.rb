@@ -1,5 +1,7 @@
+# $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "bundler/setup"
 require "fake_spewz"
+require "byebug"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
