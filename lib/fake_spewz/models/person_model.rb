@@ -12,10 +12,10 @@ module FakeSpewz
       FEMALE_NAME_SUFFIX_KINDS  = NEUTRAL_NAME_SUFFIX_KINDS
 
       AGE_EPOCH_KINDS = [:child, :child_under_26, :adult, :elder] 
-      ADULT_AGE_RANGE = 18..65
+      ADULT_AGE_RANGE = 18..64
       CHILD_AGE_RANGE = 0..18
       CHILD_UNDER_26_AGE_RANGE = 0..26
-      ELDER_AGE_RANGE = 66..120
+      ELDER_AGE_RANGE = 65..120
 
       USES_TOBACCO_KINDS = [:true, :false, :unknown]
 
