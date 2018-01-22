@@ -6,4 +6,4 @@ end
 
 require "fake_spewz/task"
 require "fake_spewz/composite_task"
-require "fake_spewz/models/model"
+require "fake_spewz/model"
